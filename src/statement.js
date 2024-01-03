@@ -6,17 +6,16 @@ export function statement(invoice, plays) {
         {style: "currency", currency: "USD", minimumFractionDigits: 2}).format;
 
     for (let perf of invoice.performances) {
-        const play = playFor(perf);
-        let thisAmount = amountFor(perf, play);
+        let thisAmount = amountFor(perf, playFor(perf));
 
         // Добавление бонусов
         volumeCredits += Math.max(perf.audience - 30, 0);
 
 
         // Дополнительный бонус за каждые 10 комедий
-        if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
         // Вывод строки счета
-        result += ` ${play.name}: ${format(thisAmount / 100)}`;
+        result += ` ${playFor(perf).name}: ${format(thisAmount / 100)}`;
         result += ` (${perf.audience} seats)\n`;
         totalAmount += thisAmount;
     }
