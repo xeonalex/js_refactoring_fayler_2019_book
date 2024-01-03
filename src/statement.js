@@ -6,11 +6,8 @@ export function statement(invoice, plays) {
         {style: "currency", currency: "USD", minimumFractionDigits: 2}).format;
 
     for (let perf of invoice.performances) {
-        // Добавление бонусов
-        volumeCredits += Math.max(perf.audience - 30, 0);
+        volumeCredits += volumeCreditsFor(perf);
 
-        // Дополнительный бонус за каждые 10 комедий
-        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
         // Вывод строки счета
         result += ` ${playFor(perf).name}: ${format(amountFor(perf) / 100)}`;
         result += ` (${perf.audience} seats)\n`;
@@ -45,6 +42,16 @@ export function statement(invoice, plays) {
         }
 
         return result
+    }
+
+    function volumeCreditsFor(perf) {
+        let volumeCredits = 0;
+        volumeCredits += Math.max(perf.audience - 30, 0);
+
+        // Дополнительный бонус за каждые 10 комедий
+        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+
+        return volumeCredits;
     }
 }
 
