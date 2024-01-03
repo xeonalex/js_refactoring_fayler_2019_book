@@ -1,16 +1,20 @@
 export function statement(invoice, plays) {
     let totalAmount = 0;
-    let volumeCredits = 0;
     let result = `Statement for ${invoice.customer}\n`;
 
     for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(perf);
-
         // Вывод строки счета
         result += ` ${playFor(perf).name}: ${usd(amountFor(perf))}`;
         result += ` (${perf.audience} seats)\n`;
         totalAmount += amountFor(perf);
     }
+
+    let volumeCredits = 0;
+
+    for (let perf of invoice.performances) {
+        volumeCredits += volumeCreditsFor(perf);
+    }
+
     result += `Amount owed is ${usd(totalAmount)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
     return result;
