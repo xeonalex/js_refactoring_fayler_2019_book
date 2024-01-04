@@ -1,11 +1,16 @@
 export function statement(invoice, plays) {
+    return renderPlainText(createStatementData(invoice, plays))
+}
+
+function createStatementData(invoice, plays) {
     const statementData = {
         customer: invoice.customer,
         performances: invoice.performances.map(enrichPeformance)
     }
     statementData.totalAmount = totalAmount(statementData)
     statementData.totalVolumeCredits = totalVolumeCredits(statementData)
-    return renderPlainText(statementData, plays)
+
+    return statementData
 
     function playFor(aPerformance) {
         return plays[aPerformance.playlD];
