@@ -16,12 +16,12 @@ export function statement(invoice, plays) {
     }
 }
 
-export function renderPlainText(data, plays) {
+export function renderPlainText(data) {
     let result = `Statement for ${data.customer}\n`;
 
     for (let perf of data.performances) {
         // Вывод строки счета
-        result += ` ${playFor(perf).name}: ${usd(amountFor(perf))}`;
+        result += ` ${perf.play.name}: ${usd(amountFor(perf))}`;
         result += ` (${perf.audience} seats)\n`;
     }
 
@@ -29,13 +29,9 @@ export function renderPlainText(data, plays) {
     result += `You earned ${totalVolumeCredits()} credits\n`;
     return result;
 
-    function playFor(aPerformance) {
-        return plays[aPerformance.playlD];
-    }
-
     function amountFor(aPerformance) {
         let result = 0;
-        switch (playFor(aPerformance).type) {
+        switch (aPerformance.play.type) {
             case "tragedy":
                 result = 40000;
                 if (aPerformance.audience > 30) {
@@ -50,7 +46,7 @@ export function renderPlainText(data, plays) {
                 result += 300 * aPerformance.audience;
                 break;
             default:
-                throw new Error(`unknown type: ${playFor(aPerformance).type}`);
+                throw new Error(`unknown type: ${aPerformance.play.type}`);
         }
 
         return result
@@ -61,7 +57,7 @@ export function renderPlainText(data, plays) {
         result += Math.max(aPerformance.audience - 30, 0);
 
         // Дополнительный бонус за каждые 10 комедий
-        if ("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+        if ("comedy" === aPerformance.play.type) result += Math.floor(aPerformance.audience / 5);
 
         return result;
     }
