@@ -12,10 +12,6 @@ export default function createStatementData(invoice, plays) {
         return plays[aPerformance.playlD];
     }
 
-    function volumeCreditsFor(aPerformance) {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).volumeCredits
-    }
-
     function totalVolumeCredits(data) {
         let volumeCredits = 0;
 
@@ -39,7 +35,7 @@ export default function createStatementData(invoice, plays) {
         const calculator = new PerformanceCalculator(aPerformance, playFor(result))
         result.play = calculator.play
         result.amount = calculator.amount
-        result.volumeCredits = volumeCreditsFor(result)
+        result.volumeCredits = calculator.volumeCredits
         return result
     }
 }
