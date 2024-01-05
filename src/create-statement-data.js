@@ -12,10 +12,6 @@ export default function createStatementData(invoice, plays) {
         return plays[aPerformance.playlD];
     }
 
-    function amountFor(aPerformance) {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount
-    }
-
     function volumeCreditsFor(aPerformance) {
         let result = 0;
         result += Math.max(aPerformance.audience - 30, 0);
@@ -48,7 +44,7 @@ export default function createStatementData(invoice, plays) {
         const result = Object.assign({}, aPerformance)
         const calculator = new PerformanceCalculator(aPerformance, playFor(result))
         result.play = calculator.play
-        result.amount = amountFor(result)
+        result.amount = calculator.amount
         result.volumeCredits = volumeCreditsFor(result)
         return result
     }
