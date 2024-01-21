@@ -1,7 +1,9 @@
 import assert from 'assert'
+import {Province, sampleProvinceData} from "../index.js";
 
-describe('example', function () {
-    it('should work', function () {
-        assert.equal(1, 1);
+describe('province', function () {
+    it('shortfall', function () {
+        const asia = new Province(sampleProvinceData())
+        assert.equal(asia.shortfall, 5)
     });
 });
