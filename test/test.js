@@ -1,7 +1,7 @@
-import assert from 'assert'
+import {expect} from 'chai'
 
 describe('example', function () {
     it('should work', function () {
-        assert.equal(1, 1);
+        expect(1).equal(1);
     });
 });
